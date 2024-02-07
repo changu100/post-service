@@ -1,5 +1,6 @@
 package com.example.sessionpostservice.user.controller
 
+import com.example.sessionpostservice.user.controller.request.SignInRequest
 import com.example.sessionpostservice.user.controller.request.SignUpRequest
 import com.example.sessionpostservice.user.service.UserService
 import org.springframework.http.ResponseEntity
@@ -19,6 +20,15 @@ class UserController(
     ): ResponseEntity<Boolean>{
         return ResponseEntity.ok(
             userService.signUp(request.email, request.password, request.name)
+        )
+    }
+
+    @PostMapping("/sign-in")
+    fun signIn(
+        @RequestBody request: SignInRequest
+    ): ResponseEntity<String>{
+        return ResponseEntity.ok(
+            userService.signIn(request.email, request.password)
         )
     }
 

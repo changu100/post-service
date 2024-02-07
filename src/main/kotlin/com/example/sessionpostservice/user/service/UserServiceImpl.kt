@@ -25,4 +25,15 @@ class UserServiceImpl(
             throw RuntimeException("회원 가입 실패 ${e.message}")
         }
     }
+
+    override fun signIn(email: String, password: String): String {
+        val user = userRepository.findByEmail(email)
+            ?: throw RuntimeException("존재하지 않는 사용자입니다.")
+        if (!passwordEncoder.matches(password, user.password)){
+            throw RuntimeException("비밀번호가 일치하지 않습니다.")
+        }
+
+        // token 생성
+        return "로그인 성공"
+    }
 }
