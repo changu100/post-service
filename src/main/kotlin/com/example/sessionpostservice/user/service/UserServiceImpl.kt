@@ -2,18 +2,20 @@ package com.example.sessionpostservice.user.service
 
 import com.example.sessionpostservice.user.repository.UserRepository
 import com.example.sessionpostservice.user.repository.entity.User
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 
 @Service
 class UserServiceImpl(
     private val userRepository: UserRepository,
+    private val passwordEncoder: PasswordEncoder,
 ): UserService {
     override fun signUp(email: String, password: String, name: String): Boolean {
         try {
             userRepository.save(
                 User(
                     email = email,
-                    password = password,
+                    password = passwordEncoder.encode(password),
                     name = name
                 )
             )
