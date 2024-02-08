@@ -1,5 +1,7 @@
 package com.example.sessionpostservice.infra.security.jwt
 
+import com.example.sessionpostservice.infra.security.UserPrincipal
+import com.example.sessionpostservice.user.repository.entity.User
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jws
 import io.jsonwebtoken.Jwts
@@ -24,11 +26,13 @@ class JwtPlugin(
 
     }
 
-    fun generateToken(userId: Long, email : String): String {
+    fun generateToken(userId: Long, email : String, role: User.UserRole): String {
         val duration = Duration.ofHours(accessTokenExpireTime)
 
         val claims: Claims = Jwts.claims().add(
-            "email", email
+            "email", email,
+        ).add(
+            "role", role
         ).build()
 
         val now = Instant.now()
