@@ -1,5 +1,6 @@
 package com.example.sessionpostservice.user.service
 
+import com.example.sessionpostservice.infra.security.jwt.JwtPlugin
 import com.example.sessionpostservice.user.repository.UserRepository
 import com.example.sessionpostservice.user.repository.entity.User
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service
 class UserServiceImpl(
     private val userRepository: UserRepository,
     private val passwordEncoder: PasswordEncoder,
+    private val jwtPlugin: JwtPlugin
 ): UserService {
     override fun signUp(email: String, password: String, name: String): Boolean {
         try {
@@ -34,6 +36,6 @@ class UserServiceImpl(
         }
 
         // token 생성
-        return "로그인 성공"
+        return jwtPlugin.generateToken(userId = user.id!!, email = user.email)
     }
 }
