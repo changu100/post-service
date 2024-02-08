@@ -1,6 +1,7 @@
 package com.example.sessionpostservice.infra.security.jwt
 
 import io.jsonwebtoken.Claims
+import io.jsonwebtoken.Jws
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
 import org.springframework.beans.factory.annotation.Value
@@ -16,6 +17,13 @@ class JwtPlugin(
     @Value("\${auth.jwt.secret}") private val secret: String,
     @Value("\${auth.jwt.accessTokenExpireTime}") private val accessTokenExpireTime: Long,
 ) {
+    fun validateToken(jwt: String): Jws<Claims> {
+
+        val key = Keys.hmacShaKeyFor(secret.toByteArray(StandardCharsets.UTF_8))
+        return Jwts.parser().verifyWith(key).build().parseSignedClaims(jwt)
+
+    }
+
     fun generateToken(userId: Long, email : String): String {
         val duration = Duration.ofHours(accessTokenExpireTime)
 
