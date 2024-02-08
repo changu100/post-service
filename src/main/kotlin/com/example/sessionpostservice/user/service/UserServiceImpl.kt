@@ -36,6 +36,6 @@ class UserServiceImpl(
         }
 
         // token 생성
-        return jwtPlugin.generateToken(userId = user.id!!, email = user.email)
+        return jwtPlugin.generateToken(userId = user.id!!, email = user.email, role = user.role)
     }
 }

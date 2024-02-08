@@ -1,6 +1,7 @@
 package com.example.sessionpostservice.infra.security.jwt
 
 import com.example.sessionpostservice.infra.security.UserPrincipal
+import com.example.sessionpostservice.user.repository.entity.User
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -36,8 +37,9 @@ class JwtAuthenticationFilter(
             val claims = jwtPlugin.validateToken(jwt)
             val userId = claims.payload.subject.toLong()
             val email = claims.payload.get("email", String::class.java)
+            val role = claims.payload.get("role", String::class.java)
 
-            val userPrincipal = UserPrincipal(userId, email)
+            val userPrincipal = UserPrincipal(userId, email, User.UserRole.valueOf(role))
 
             val authentication = JwtAuthenticationToken(
                 principal = userPrincipal,
