@@ -48,4 +48,10 @@ class User(
             name = name
         )
     }
+
+    fun setInitUserToAdmin() {
+        if (this.id == 1L) {
+            this.role = UserRole.ADMIN
+        }
+    }
 }
