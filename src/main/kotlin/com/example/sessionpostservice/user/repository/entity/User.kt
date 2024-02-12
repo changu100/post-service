@@ -1,6 +1,7 @@
 package com.example.sessionpostservice.user.repository.entity
 
 import com.example.sessionpostservice.infra.repository.ZonedDateTimeConverter
+import com.example.sessionpostservice.user.service.dto.UserDto
 import jakarta.persistence.Column
 import jakarta.persistence.Convert
 import jakarta.persistence.Entity
@@ -11,7 +12,7 @@ import jakarta.persistence.Table
 import java.time.ZonedDateTime
 
 @Entity
-@Table(name ="member")
+@Table(name = "member")
 class User(
     @Column(unique = true)
     val email: String = "",
@@ -21,7 +22,7 @@ class User(
     @Column(name = "parent_admin_user_id")
     val parentAdminUserId: Long? = null,
     @Column(name = "image_url")
-    val imageUrl:String? = null,
+    val imageUrl: String? = null,
     @Convert(converter = ZonedDateTimeConverter::class)
     @Column(name = "created_at")
     val createdAt: ZonedDateTime = ZonedDateTime.now(),
@@ -35,8 +36,16 @@ class User(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
+
     enum class UserRole {
         USER, ADMIN
     }
 
+    fun toDto(): UserDto {
+        return UserDto(
+            id = id!!,
+            email = email,
+            name = name
+        )
+    }
 }
