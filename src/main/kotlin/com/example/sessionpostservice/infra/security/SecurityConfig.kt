@@ -12,7 +12,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
+@EnableMethodSecurity // 추가!
 class SecurityConfig(
     private val jwtAuthenticationFilter: JwtAuthenticationFilter,
     private val authenticationEntrypoint: AuthenticationEntryPoint
@@ -29,7 +29,9 @@ class SecurityConfig(
                     "/api/v1/users/sign-up",
                     "/swagger-ui/**",
                     "/v3/api-docs/**",
-                ).permitAll()
+                )
+                    .permitAll()
+                    // .requestMatchers("/api/v1/users/admin/create-code").hasRole("ADMIN") // 일괄로 적용하고 싶다면! 지금은 특수한 경우만!
                     // 위 URI를 제외하곤 모두 인증이 되어야 함.
                     .anyRequest().authenticated()
             }
