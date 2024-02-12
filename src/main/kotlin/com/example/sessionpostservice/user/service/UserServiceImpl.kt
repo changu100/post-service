@@ -45,10 +45,6 @@ class UserServiceImpl(
 
     @Transactional
     override fun createAdminCode(userId: Long, userRole: User.UserRole, inviteUserEmail: String): String {
-        if (userRole != User.UserRole.ADMIN) {
-            throw RuntimeException("관리자만 코드를 생성할 수 있습니다.")
-        }
-
         val inviteUser = userRepository.findByEmail(inviteUserEmail) ?: throw RuntimeException("존재하지 않는 사용자입니다.")
 
         val user = userRepository.findById(userId)

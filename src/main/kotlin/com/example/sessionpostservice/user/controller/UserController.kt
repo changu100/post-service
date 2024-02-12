@@ -7,6 +7,7 @@ import com.example.sessionpostservice.user.controller.request.SignInRequest
 import com.example.sessionpostservice.user.controller.request.SignUpRequest
 import com.example.sessionpostservice.user.service.UserService
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -38,6 +39,7 @@ class UserController(
     }
 
     @PostMapping("/admin/create-code")
+    @PreAuthorize("hasRole('ADMIN')")
     fun createCode(
         @RequestBody request: CreateAdminInviteCodeRequest
     ): ResponseEntity<String> {
