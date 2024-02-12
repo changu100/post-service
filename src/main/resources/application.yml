@@ -17,7 +17,7 @@ jpa:
 auth:
   jwt:
     issuer: team.sparta.com
-    accessTokenExpireTime: 168
+    accessTokenExpireTime: 1
 
 logging:
   level:
