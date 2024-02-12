@@ -16,22 +16,22 @@ import java.time.ZonedDateTime
 class User(
     @Column(unique = true)
     val email: String = "",
-    val password: String = "",
-    val name: String = "",
-    val role: UserRole = UserRole.USER,
+    var password: String = "",
+    var name: String = "",
+    var role: UserRole = UserRole.USER,
     @Column(name = "parent_admin_user_id")
-    val parentAdminUserId: Long? = null,
+    var parentAdminUserId: Long? = null,
     @Column(name = "image_url")
-    val imageUrl: String? = null,
+    var imageUrl: String? = null,
     @Convert(converter = ZonedDateTimeConverter::class)
     @Column(name = "created_at")
-    val createdAt: ZonedDateTime = ZonedDateTime.now(),
+    var createdAt: ZonedDateTime = ZonedDateTime.now(),
     @Convert(converter = ZonedDateTimeConverter::class)
     @Column(name = "updated_at")
-    val updatedAt: ZonedDateTime = ZonedDateTime.now(),
+    var updatedAt: ZonedDateTime = ZonedDateTime.now(),
     @Convert(converter = ZonedDateTimeConverter::class)
     @Column(name = "deleted_at")
-    val deletedAt: ZonedDateTime? = null
+    var deletedAt: ZonedDateTime? = null
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
