@@ -89,11 +89,18 @@ class User(
     }
 
     fun participateAdmin(inviteCode: String) {
+        if (parentAdminUser != null) {
+            throw RuntimeException("이미 관리자에게 참여하였습니다.")
+        }
+        
         inviteCodes.find { it.inviteCode == inviteCode }?.let {
             if (it.expiredAt.isBefore(ZonedDateTime.now())) {
                 throw RuntimeException("만료된 코드입니다.")
             }
-            
+            if (it.acceptAt != null) {
+                throw RuntimeException("이미 참여한 코드입니다.")
+            }
+
             it.acceptAt = ZonedDateTime.now()
             parentAdminUser = it.requestUser
             this.role = UserRole.ADMIN
