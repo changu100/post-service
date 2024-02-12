@@ -1,6 +1,7 @@
 package com.example.sessionpostservice.post.repository.entity
 
 import com.example.sessionpostservice.infra.repository.ZonedDateTimeConverter
+import com.example.sessionpostservice.post.controller.request.UpdateRequest
 import com.example.sessionpostservice.post.service.dto.PostDto
 import com.example.sessionpostservice.user.repository.entity.User
 import jakarta.persistence.CascadeType
@@ -38,10 +39,10 @@ data class Post(
     var imageUrls: List<PostImage> = listOf(),
 
     @Column(name = "is_hidden")
-    var isHidden: Boolean = false,
+    var isHidden: Boolean = false, // 비공개 용도로 사용됨.
 
     @Column(name = "deleted_reason")
-    var deletedReason: String = "",
+    var isHiddenReason: String = "",
 
     @Column(name = "is_announcement")
     var isAnnouncement: Boolean = false,
@@ -78,11 +79,30 @@ data class Post(
             content = content,
             imageUrls = imageUrls.map { it.imageUrl },
             isHidden = isHidden,
-            deletedReason = deletedReason,
+            deletedReason = isHiddenReason,
             isAnnouncement = isAnnouncement,
             deletedAt = deletedAt,
             createdAt = createdAt,
             updatedAt = updatedAt
         )
+    }
+
+    fun delete() {
+        deletedAt = ZonedDateTime.now()
+    }
+
+    fun update(request: UpdateRequest) {
+        updatedAt = ZonedDateTime.now()
+        if (request.title != null)
+            title = request.title
+        if (request.content != null)
+            content = request.content
+        if (request.imageUrls != null)
+            imageUrls = request.imageUrls.map { imageUrl ->
+                PostImage(
+                    this,
+                    imageUrl,
+                )
+            }
     }
 }

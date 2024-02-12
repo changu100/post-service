@@ -9,7 +9,6 @@ import com.example.sessionpostservice.post.service.dto.PostDto
 import com.example.sessionpostservice.user.repository.UserRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.ZonedDateTime
 
 @Service
 class PostServiceImpl(
@@ -56,18 +55,8 @@ class PostServiceImpl(
             throw RuntimeException("본인의 게시글만 수정할 수 있습니다.")
         }
 
-        post.updatedAt = ZonedDateTime.now()
-        if (request.title != null)
-            post.title = request.title
-        if (request.content != null)
-            post.content = request.content
-        if (request.imageUrls != null)
-            post.imageUrls = request.imageUrls.map { imageUrl ->
-                PostImage(
-                    post,
-                    imageUrl,
-                )
-            }
+        post.update(request)
+
         return post.toDto()
     }
 
@@ -80,7 +69,7 @@ class PostServiceImpl(
         }
 
         try {
-            post.deletedAt = ZonedDateTime.now()
+            post.delete()
         } catch (e: Exception) {
             throw RuntimeException("post 삭제에 실패했습니다.")
         }
