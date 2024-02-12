@@ -48,7 +48,6 @@ class UserController(
         )
     }
 
-    //c34517ef-7b63-486c-902a-57cd4f3c9f5f
     @PutMapping("/admin/participate")
     fun inviteAdmin(
         @RequestBody request: ParticipateAdminRequest
