@@ -28,7 +28,6 @@ data class Post(
 
     var content: String,
 
-    @OneToMany(mappedBy = "post", cascade = [CascadeType.ALL], orphanRemoval = true)
     /*
     각 연관관계의 Default Fetching 전략
         @OneToMany: LAZY
@@ -36,6 +35,7 @@ data class Post(
         @ManyToMany: LAZY
         @OneToOne: EAGER
      */
+    @OneToMany(mappedBy = "post", cascade = [CascadeType.ALL], orphanRemoval = true)
     var imageUrls: List<PostImage> = listOf(),
 
     @Column(name = "is_hidden")

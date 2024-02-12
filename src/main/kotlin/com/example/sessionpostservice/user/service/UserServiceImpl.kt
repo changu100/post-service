@@ -42,4 +42,26 @@ class UserServiceImpl(
         // token 생성
         return jwtPlugin.generateToken(userId = user.id!!, email = user.email, role = user.role)
     }
+
+    @Transactional
+    override fun createAdminCode(userId: Long, userRole: User.UserRole, inviteUserEmail: String): String {
+        if (userRole != User.UserRole.ADMIN) {
+            throw RuntimeException("관리자만 코드를 생성할 수 있습니다.")
+        }
+
+        val inviteUser = userRepository.findByEmail(inviteUserEmail) ?: throw RuntimeException("존재하지 않는 사용자입니다.")
+
+        val user = userRepository.findById(userId)
+            .orElseThrow { RuntimeException("존재하지 않는 사용자입니다.") }
+
+        return user.createAdminInviteCode(inviteUser)
+    }
+
+    @Transactional
+    override fun participateAdmin(userId: Long, inviteCode: String) {
+        val user = userRepository.findById(userId)
+            .orElseThrow { RuntimeException("존재하지 않는 사용자입니다.") }
+
+        user.participateAdmin(inviteCode)
+    }
 }

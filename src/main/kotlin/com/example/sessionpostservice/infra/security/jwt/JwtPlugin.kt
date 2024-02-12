@@ -1,6 +1,5 @@
 package com.example.sessionpostservice.infra.security.jwt
 
-import com.example.sessionpostservice.infra.security.UserPrincipal
 import com.example.sessionpostservice.user.repository.entity.User
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jws
@@ -23,10 +22,9 @@ class JwtPlugin(
 
         val key = Keys.hmacShaKeyFor(secret.toByteArray(StandardCharsets.UTF_8))
         return Jwts.parser().verifyWith(key).build().parseSignedClaims(jwt)
-
     }
 
-    fun generateToken(userId: Long, email : String, role: User.UserRole): String {
+    fun generateToken(userId: Long, email: String, role: User.UserRole): String {
         val duration = Duration.ofHours(accessTokenExpireTime)
 
         val claims: Claims = Jwts.claims().add(
