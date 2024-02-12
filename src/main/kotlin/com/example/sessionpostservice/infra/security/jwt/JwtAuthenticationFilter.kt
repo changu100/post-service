@@ -14,9 +14,9 @@ import org.springframework.web.filter.OncePerRequestFilter
 @Component
 class JwtAuthenticationFilter(
     private val jwtPlugin: JwtPlugin,
-) : OncePerRequestFilter(){
+) : OncePerRequestFilter() {
 
-    companion object{
+    companion object {
         private val BEARER_PATTERN = Regex("^Bearer (.+?)$")
     }
 
@@ -26,13 +26,13 @@ class JwtAuthenticationFilter(
         filterChain: FilterChain
     ) {
         val authorization = request.getHeader(HttpHeaders.AUTHORIZATION)
-        val jwt = try{
+        val jwt = try {
             BEARER_PATTERN.matchEntire(authorization)?.groupValues?.get(1)
-        }catch (e: Exception){
+        } catch (e: Exception) {
             null
         }
 
-        if (jwt != null){
+        if (jwt != null) {
 
             val claims = jwtPlugin.validateToken(jwt)
             val userId = claims.payload.subject.toLong()
@@ -43,7 +43,7 @@ class JwtAuthenticationFilter(
 
             val authentication = JwtAuthenticationToken(
                 principal = userPrincipal,
-                details =  WebAuthenticationDetailsSource().buildDetails(request) //loging  사용자 ip 정보
+                details = WebAuthenticationDetailsSource().buildDetails(request) //loging  사용자 ip 정보
             )
 
             // 왜 저장해야하는지 확인이 필요
