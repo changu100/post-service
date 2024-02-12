@@ -27,9 +27,8 @@ class UserServiceImpl(
             throw RuntimeException("회원 가입 실패 ${e.message}")
         }
 
-        if (user.id == 1L) {
-            user.role = User.UserRole.ADMIN
-        }
+        user.setInitUserToAdmin()
+
         return true
     }
 
