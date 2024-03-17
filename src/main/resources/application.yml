@@ -1,9 +1,26 @@
 spring:
+
+  # H2 DATABASE Setting
+  h2:
+    console:
+      enabled: true
   datasource:
-    hikari:
-      maximum-pool-size: 1
+    url: jdbc:h2:~/test
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
   jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
     generate-ddl: true
+
+  #  datasource:
+#    url : jdbc:mysql://localhost:5432/postgres
+#    username: postgres
+#    password: 1234
+#    hikari:
+#      maximum-pool-size: 5
+#  jpa:
+#    generate-ddl: true
 
 jpa:
   properties:

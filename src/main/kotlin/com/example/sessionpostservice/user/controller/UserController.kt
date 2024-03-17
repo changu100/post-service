@@ -27,6 +27,7 @@ class UserController(
         return ResponseEntity.ok(
             userService.signUp(request.email, request.password, request.name)
         )
+        return ResponseEntity.status(200).body(true)
     }
 
     @PostMapping("/sign-in")
