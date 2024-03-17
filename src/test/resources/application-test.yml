@@ -1,0 +1,48 @@
+spring:
+
+  # H2 DATABASE Setting
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url: jdbc:h2:~/test
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    generate-ddl: true
+
+  #  datasource:
+#    url : jdbc:mysql://localhost:5432/postgres
+#    username: postgres
+#    password: 1234
+#    hikari:
+#      maximum-pool-size: 5
+#  jpa:
+#    generate-ddl: true
+
+jpa:
+  properties:
+    hibernate:
+      format_sql: true
+      highlight_sql: true
+      use_sql_comments: true
+      ddl-auto: create
+      show-sql: true
+
+auth:
+  jwt:
+    issuer: team.sparta.com
+    accessTokenExpireTime: 1
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug
+        orm:
+          jdbc:
+            bind: trace
+      springframework:
+        security: debug
