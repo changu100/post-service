@@ -15,6 +15,7 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
+import org.springframework.data.domain.PageRequest
 import java.time.ZonedDateTime
 
 @Entity
@@ -62,7 +63,7 @@ data class Post(
     ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null
+    val id: Long? = null
 
     constructor() : this(
         "",
@@ -91,7 +92,7 @@ data class Post(
         deletedAt = ZonedDateTime.now()
     }
 
-    fun update(request: UpdateRequest) {
+    fun update(request: UpdateRequest) {// ACID
         updatedAt = ZonedDateTime.now()
         if (request.title != null)
             title = request.title
@@ -104,5 +105,7 @@ data class Post(
                     imageUrl,
                 )
             }
+
+        val data = PageRequest.of(1,2)
     }
 }

@@ -34,7 +34,9 @@ dependencies {
     // jpa
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     //postgresql
-    runtimeOnly("org.postgresql:postgresql")
+    // runtimeOnly("org.postgresql:postgresql")
+    runtimeOnly("com.h2database:h2")
+
     //swagger
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
 
