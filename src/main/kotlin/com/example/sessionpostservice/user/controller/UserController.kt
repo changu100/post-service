@@ -1,5 +1,6 @@
 package com.example.sessionpostservice.user.controller
 
+import com.example.sessionpostservice.aop.ExeTimer
 import com.example.sessionpostservice.infra.security.UserPrincipal
 import com.example.sessionpostservice.user.controller.request.CreateAdminInviteCodeRequest
 import com.example.sessionpostservice.user.controller.request.ParticipateAdminRequest
@@ -21,12 +22,13 @@ class UserController(
     val userService: UserService
 ) {
     @PostMapping("/sign-up")
+    @ExeTimer
     fun signUp(
         @RequestBody request: SignUpRequest
     ): ResponseEntity<Boolean> {
-        return ResponseEntity.ok(
-            userService.signUp(request.email, request.password, request.name)
-        )
+        // return ResponseEntity.ok(
+        //     userService.signUp(request.email, request.password, request.name)
+        // )
         return ResponseEntity.status(200).body(true)
     }
 
